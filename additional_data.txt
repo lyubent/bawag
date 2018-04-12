@@ -1,0 +1,17 @@
+%python
+
+def mountBucket(bucketName, mountFolder):
+  ACCESS_KEY_ID = "AKIAJBRYNXGHORDHZB4A"
+  SECRET_ACCESS_KEY = "a0BzE1bSegfydr3%2FGE3LSPM6uIV5A4hOUfpH8aFF"
+
+  existing_mounts = {m.mountPoint: m.source for m in dbutils.fs.mounts()}
+  if mountFolder in existing_mounts:
+    return
+
+  print "Mounting", bucketName
+  dbutils.fs.mount("s3a://"+ ACCESS_KEY_ID + ":" + SECRET_ACCESS_KEY + "@" + bucketName, mountFolder)
+  print "The bucket", bucketName, "was mounted to", mountFolder, "\n"
+
+mountBucket("databricks-corp-training/common", "/mnt/training")
+mountBucket("db-wikipedia-readonly-eu", "/mnt/wikipedia")
+mountBucket("db-wikipedia-readonly-use", "/mnt/wikipedia-readonly")
